@@ -4,11 +4,24 @@ import Search from './components/Search';
 import Cart from './components/Cart';
 import Order from './components/Order';
 import Navbar from './components/Navbar';
+import Contact from './components/Contact';
+import Admin from './components/Admin';
+import Product from './components/Product';
+import { inventory as defaultInventory } from './data';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('home');
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const [cart, setCart] = useState([]);
   const [toastMessage, setToastMessage] = useState('');
+  const [inventory, setInventory] = useState(() => {
+    const savedInventory = localStorage.getItem('brixInventory');
+    return savedInventory ? JSON.parse(savedInventory) : defaultInventory;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('brixInventory', JSON.stringify(inventory));
+  }, [inventory]);
 
   // Load cart from local storage if available (optional enhancement, but good for UX)
   useEffect(() => {
@@ -26,6 +39,12 @@ function App() {
   };
 
   const addToCart = (item) => {
+    const currentInventoryItem = inventory.find(i => i.id === item.id);
+    if (!currentInventoryItem || currentInventoryItem.stockQuantity <= 0) {
+      showToast('Sorry, this item is out of stock!');
+      return;
+    }
+
     setCart(prevCart => {
       const existing = prevCart.find(cartItem => cartItem.id === item.id);
       if (existing) {
@@ -44,6 +63,11 @@ function App() {
     setCart(prevCart => {
       return prevCart.map(item => {
         if (item.id === id) {
+          const currentInventoryItem = inventory.find(i => i.id === id);
+          if (delta > 0 && currentInventoryItem && item.quantity >= currentInventoryItem.stockQuantity) {
+            showToast('Cannot add more than available stock.');
+            return item;
+          }
           const newQuantity = Math.max(0, item.quantity + delta);
           return { ...item, quantity: newQuantity };
         }
@@ -54,18 +78,34 @@ function App() {
 
   const clearCart = () => setCart([]);
 
+  const viewProduct = (id) => {
+    setSelectedProductId(id);
+    setCurrentScreen('product');
+  };
+
   const renderScreen = () => {
     switch(currentScreen) {
       case 'home':
-        return <Home addToCart={addToCart} />;
+        return <Home addToCart={addToCart} inventory={inventory} viewProduct={viewProduct} />;
       case 'search':
-        return <Search addToCart={addToCart} />;
+        return <Search addToCart={addToCart} inventory={inventory} viewProduct={viewProduct} />;
       case 'cart':
         return <Cart cart={cart} updateQuantity={updateQuantity} setCurrentScreen={setCurrentScreen} />;
       case 'order':
         return <Order cart={cart} clearCart={clearCart} setCurrentScreen={setCurrentScreen} />;
+      case 'contact':
+        return <Contact />;
+      case 'admin':
+        return <Admin inventory={inventory} setInventory={setInventory} />;
+      case 'product':
+        return <Product 
+          productId={selectedProductId} 
+          inventory={inventory} 
+          addToCart={addToCart} 
+          setCurrentScreen={setCurrentScreen} 
+        />;
       default:
-        return <Home addToCart={addToCart} />;
+        return <Home addToCart={addToCart} inventory={inventory} viewProduct={viewProduct} />;
     }
   };
 

@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import pouchImg from '../assets/pouch.jpg';
-import { inventory } from '../data';
 
-function Home({ addToCart }) {
+function Home({ addToCart, inventory, viewProduct }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollContainerRef = useRef(null);
   const isScrollingRef = useRef(false);
@@ -66,7 +65,9 @@ function Home({ addToCart }) {
     handleScroll();
   }, []);
 
-  const activeItem = inventory[activeIndex];
+  const activeItem = inventory[activeIndex] || inventory[0];
+
+  if (!activeItem) return <div className="home-screen">No products available.</div>;
 
   return (
     <div className="home-screen">
@@ -91,15 +92,23 @@ function Home({ addToCart }) {
           </div>
           <div className="price-wrap">
             <span className="price">Rs {activeItem.price}</span>
+            <span className="stock-badge" style={{ marginLeft: '10px', fontSize: '0.9rem', color: activeItem.stockQuantity > 0 ? '#4caf50' : '#f44336' }}>
+              {activeItem.stockQuantity > 0 ? `${activeItem.stockQuantity} in stock` : 'Out of stock'}
+            </span>
           </div>
           
-          <button className="cart-btn" onClick={() => addToCart(activeItem)}>
-            Add to Cart
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cart-icon">
-              <path d="M5 9l1.5 9h11L19 9" />
-              <path d="M9 9V5a3 3 0 0 1 6 0v4" />
-            </svg>
-          </button>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button className="cart-btn" onClick={() => addToCart(activeItem)} disabled={activeItem.stockQuantity <= 0}>
+              Add to Cart
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cart-icon">
+                <path d="M5 9l1.5 9h11L19 9" />
+                <path d="M9 9V5a3 3 0 0 1 6 0v4" />
+              </svg>
+            </button>
+            <button className="cart-btn" style={{ background: '#eee', color: '#333' }} onClick={() => viewProduct(activeItem.id)}>
+              View Details
+            </button>
+          </div>
         </div>
       </div>
 

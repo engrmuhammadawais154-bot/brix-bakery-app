@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { inventory } from '../data';
 import pouchImg from '../assets/pouch.jpg';
 
-function Search({ addToCart }) {
+function Search({ addToCart, inventory, viewProduct }) {
   const [query, setQuery] = useState('');
 
   const filtered = inventory.filter(item => 
@@ -29,7 +28,7 @@ function Search({ addToCart }) {
 
       <div className="search-grid">
         {filtered.map(item => (
-          <div className="search-card" key={item.id}>
+          <div className="search-card" key={item.id} onClick={() => viewProduct(item.id)} style={{ cursor: 'pointer' }}>
             <div className="search-card-img" style={{ backgroundImage: `url(${pouchImg})` }}>
               <div className="pouch-overlay" style={{ backgroundColor: item.color + 'd9' }}>
                 <div className="pouch-label" style={{ color: item.labelColor }}>
@@ -42,8 +41,17 @@ function Search({ addToCart }) {
               <h3>{item.title}</h3>
               <p>{item.size}</p>
               <div className="search-card-bottom">
-                <span className="price">Rs {item.price}</span>
-                <button className="add-btn-small" onClick={() => addToCart(item)}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span className="price">Rs {item.price}</span>
+                  <span style={{ fontSize: '0.8rem', color: item.stockQuantity > 0 ? '#4caf50' : '#f44336' }}>
+                    {item.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+                  </span>
+                </div>
+                <button 
+                  className="add-btn-small" 
+                  onClick={(e) => { e.stopPropagation(); addToCart(item); }}
+                  disabled={item.stockQuantity <= 0}
+                >
                   + Add
                 </button>
               </div>

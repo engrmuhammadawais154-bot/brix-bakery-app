@@ -19,7 +19,17 @@ function Order({ cart, clearCart, setCurrentScreen }) {
         <div className="success-icon">✨</div>
         <h1>Order Placed!</h1>
         <p>Your fresh batches are being prepared.</p>
-        <button className="cart-btn" onClick={() => setCurrentScreen('home')}>
+        <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#f5f5f5', borderRadius: '8px', textAlign: 'left' }}>
+          <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: '#333' }}>Next Steps:</h3>
+          <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '0.5rem' }}>
+            Please transfer the total amount (Rs {total}) to our bank account and send the receipt to:
+          </p>
+          <ul style={{ fontSize: '0.9rem', color: '#555', paddingLeft: '1.2rem', marginBottom: '1rem' }}>
+            <li>Email: <strong>engermuhammadawais154@gmail.com</strong></li>
+            <li>WhatsApp: <strong>03340809229</strong></li>
+          </ul>
+        </div>
+        <button className="cart-btn" onClick={() => setCurrentScreen('home')} style={{ marginTop: '1.5rem' }}>
           Return Home
         </button>
       </div>
@@ -40,23 +50,23 @@ function Order({ cart, clearCart, setCurrentScreen }) {
         </div>
         
         <div className="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="03340809229" required />
+        </div>
+
+        <div className="form-group">
           <label>Shipping Address</label>
           <textarea placeholder="123 Bakery Lane..." required></textarea>
         </div>
 
-        <div className="form-group row">
-          <div className="half">
-            <label>Card Number</label>
-            <input type="text" placeholder="•••• •••• •••• ••••" required />
-          </div>
-          <div className="half">
-            <label>Expiry</label>
-            <input type="text" placeholder="MM/YY" required />
-          </div>
+        <div className="form-group">
+          <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '1rem', lineHeight: '1.4' }}>
+            Payment Method: <strong>Bank Transfer</strong>. After placing the order, please send the payment receipt to our WhatsApp/Email.
+          </p>
         </div>
 
         <button type="submit" className="cart-btn checkout-btn">
-          Pay Rs {total}
+          Place Order (Rs {total})
         </button>
         <button type="button" className="text-btn" onClick={() => setCurrentScreen('cart')}>
           Back to Cart
