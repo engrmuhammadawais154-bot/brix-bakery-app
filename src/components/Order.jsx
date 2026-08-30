@@ -19,17 +19,17 @@ function Order({ cart, clearCart, setCurrentScreen }) {
         <div className="success-icon">✨</div>
         <h1>Order Placed!</h1>
         <p>Your fresh batches are being prepared.</p>
-        <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#f5f5f5', borderRadius: '8px', textAlign: 'left' }}>
-          <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: '#333' }}>Next Steps:</h3>
-          <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '0.5rem' }}>
+        <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'rgba(20, 15, 13, 0.4)', borderRadius: '16px', textAlign: 'left', border: '1px solid var(--glass-border)', backdropFilter: 'blur(10px)' }}>
+          <h3 style={{ fontSize: '1.2rem', marginBottom: '0.8rem', color: 'var(--text-main)', fontFamily: 'Playfair Display' }}>Next Steps:</h3>
+          <p style={{ fontSize: '1rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
             Please transfer the total amount (Rs {total}) to our bank account and send the receipt to:
           </p>
-          <ul style={{ fontSize: '0.9rem', color: '#555', paddingLeft: '1.2rem', marginBottom: '1rem' }}>
-            <li>Email: <strong>engermuhammadawais154@gmail.com</strong></li>
-            <li>WhatsApp: <strong>03340809229</strong></li>
+          <ul style={{ fontSize: '1rem', color: 'var(--text-muted)', paddingLeft: '1.5rem', marginBottom: '1rem' }}>
+            <li style={{ marginBottom: '0.5rem' }}>Email: <strong style={{ color: 'var(--text-main)' }}>engermuhammadawais154@gmail.com</strong></li>
+            <li>WhatsApp: <strong style={{ color: 'var(--text-main)' }}>03340809229</strong></li>
           </ul>
         </div>
-        <button className="cart-btn" onClick={() => setCurrentScreen('home')} style={{ marginTop: '1.5rem' }}>
+        <button className="cart-btn" onClick={() => setCurrentScreen('home')} style={{ marginTop: '2rem' }}>
           Return Home
         </button>
       </div>
@@ -60,8 +60,8 @@ function Order({ cart, clearCart, setCurrentScreen }) {
         </div>
 
         <div className="form-group">
-          <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '1rem', lineHeight: '1.4' }}>
-            Payment Method: <strong>Bank Transfer</strong>. After placing the order, please send the payment receipt to our WhatsApp/Email.
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: '1.5' }}>
+            Payment Method: <strong style={{ color: 'var(--text-main)' }}>Bank Transfer</strong>. After placing the order, please send the payment receipt to our WhatsApp/Email.
           </p>
         </div>
 

@@ -48,24 +48,25 @@ function Product({ productId, inventory, addToCart, setCurrentScreen }) {
         </div>
 
         <div style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
-          <h1 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>{product.title}</h1>
-          <p style={{ margin: '0 0 1rem 0', color: '#666', fontSize: '1.1rem' }}>{product.size} Pouch</p>
+          <h1 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-main)' }}>{product.title}</h1>
+          <p style={{ margin: '0 0 1rem 0', color: 'var(--text-muted)', fontSize: '1.1rem' }}>{product.size} Pouch</p>
           
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#2b1c11' }}>Rs {product.price}</span>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--gold-primary)' }}>Rs {product.price}</span>
             <span style={{ 
               padding: '4px 10px', 
               borderRadius: '20px', 
               fontSize: '0.85rem', 
               fontWeight: '600',
-              background: product.stockQuantity > 0 ? '#e8f5e9' : '#ffebee',
-              color: product.stockQuantity > 0 ? '#4caf50' : '#f44336'
+              background: product.stockQuantity > 0 ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)',
+              color: product.stockQuantity > 0 ? '#4caf50' : '#f44336',
+              border: product.stockQuantity > 0 ? '1px solid rgba(76, 175, 80, 0.2)' : '1px solid rgba(244, 67, 54, 0.2)'
             }}>
               {product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Out of stock'}
             </span>
           </div>
 
-          <p style={{ margin: '0 0 2rem 0', color: '#555', lineHeight: '1.6' }}>
+          <p style={{ margin: '0 0 2rem 0', color: 'var(--text-muted)', lineHeight: '1.6' }}>
             {product.description || "Freshly baked and handcrafted with the finest ingredients."}
           </p>
 
